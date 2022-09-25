@@ -25,8 +25,10 @@ battle_list, salmon_run_job_list = s3s.fetch_json("both", True, False, False)
 # post the result to stat.ink here? (add a cmd line arg for this too)
 # DO THE THING WHEN S3S SUPPORTS STAT.INK
 print("uploading files to stat.ink...")
-s3s.upload_imported_data_with_statink_checks(False, False, battle_list)
-
+try:
+	s3s.upload_imported_data_with_statink_checks(False, False, battle_list)
+except Exception as err:
+	print("failed to upload to stat.ink", str(err))
 
 print("uploading files to digitalocean")
 
