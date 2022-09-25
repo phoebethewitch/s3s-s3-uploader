@@ -32,7 +32,7 @@ print("uploading files to digitalocean")
 
 time = int(time.time())
 
-print("uploading battlea...")
+print("uploading battles...")
 
 client.put_object(
 	Bucket=os.getenv("SPACES_BUCKET"),
