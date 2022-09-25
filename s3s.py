@@ -1216,7 +1216,26 @@ def main():
 		results.reverse() # sort from oldest to newest
 		noun = utils.set_noun(which)
 		for hash in results:
-			fetch_and_upload_single_result(hash, noun, False, blackout, test_run) # monitoring mode = False
+			fetch_and_upload_single_result(hash, noun, False, blackout, test_run) 
+
+def upload_imported_data_with_statink_checks(blackout, test_run, data, overview_file=None):
+    auth = {'Authorization': f'Bearer {API_KEY}'}
+    resp = requests.get("https://stat.ink/api/v3/s3s/uuid-list", headers=auth)
+    try:
+     statink_uploads = json.loads(resp.text)
+    except:
+     print(f"Encountered an error while checking recently-uploaded {noun}. Is stat.ink down?")
+     sys.exit(1)
+
+    data_new = []
+    for battle in data:
+     if battle["data"]["vsHistoryDetail"] != None:
+      battle_uuid = utils.b64d(battle["data"]["vsHistoryDetail"]["id"])
+
+      if battle_uuid not in statink_uploads:
+       data_new.append(battle)
+
+    post_result(data_new, False, blackout, test_run, overview_data=overview_file) # one or multiple; monitoring mode = False
 
 
 if __name__ == "__main__":

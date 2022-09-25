@@ -1,5 +1,7 @@
 beautifulsoup4
+boto3
 msgpack_python
 packaging
 Pillow
+python-dotenv
 requests
