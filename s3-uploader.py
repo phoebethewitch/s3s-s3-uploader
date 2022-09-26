@@ -41,8 +41,8 @@ client.put_object(
 	Key=f"battles/{time}.json",
 	Body=json.dumps(battle_list),
 	ACL="private",
+	ContentType='application/json',
 	Metadata={
-		'Content-Type': 'application/json',
 		'x-amz-meta-run-uuid': run_uuid
 	}
 )
@@ -54,8 +54,8 @@ client.put_object(
 	Key=f"jobs/{time}.json",
 	Body=json.dumps(salmon_run_job_list),
 	ACL="private",
+	ContentType='application/json',
 	Metadata={
-		'Content-Type': 'application/json',
 		'x-amz-meta-run-uuid': run_uuid
 	}
 )
