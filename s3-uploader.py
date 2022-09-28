@@ -64,7 +64,7 @@ client.put_object(
 print("digitalocean spaces uploads done!!")
 print("triggering site rebuild...")
 
-rebuild_response = requests.post(f"https://api.digitalocean.com/v2/apps/{os.getenv('APP_ID')}/deployments", json={"force_rebuild": True}, headers={"Authorization": f"Bearer {os.getenv('API_TOKEN')}"})
+rebuild_response = requests.post(f"https://api.digitalocean.com/v2/apps/{os.getenv('APP_ID')}/deployments", json={"force_build": True}, headers={"Authorization": f"Bearer {os.getenv('API_TOKEN')}"})
 rebuild_res_data = rebuild_response.json()
 
-print("rebuild started!" if rebuild_response.status_code == 200 else ("rebuild failed!", rebuild_response.status_code, rebuild_res_data))
+print("rebuild started!" if rebuild_response.status_code == 200 else "rebuild failed!", rebuild_response.status_code, rebuild_res_data)
