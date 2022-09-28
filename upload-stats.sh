@@ -1,0 +1,1 @@
+python3 s3-uploader.py
