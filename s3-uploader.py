@@ -24,7 +24,6 @@ print("getting files")
 battle_list, salmon_run_job_list = s3s.fetch_json("both", True, False, False)
 
 # post the result to stat.ink here? (add a cmd line arg for this too)
-# DO THE THING WHEN S3S SUPPORTS STAT.INK
 print("uploading files to stat.ink...")
 try:
 	s3s.upload_imported_data_with_statink_checks(False, False, battle_list)
@@ -35,12 +34,28 @@ print("uploading files to digitalocean")
 
 time = int(time.time())
 
+last_id = ""
+with open(".last-id") as f:
+	last_id = f.read()
+
+latest_battles_list = []
+
+for battle in battle_list:
+	if battle["data"]["vsHistoryDetail"]["id"] == last_id:
+		break
+	else:
+		latest_battles_list.append(battle)
+
+with open(".last-id", "w") as f:
+	f.write(battle_list[0]["data"]["vsHistoryDetail"]["id"])
+
 print("uploading battles...")
+print("latest battles list length:", len(latest_battles_list))
 
 client.put_object(
 	Bucket=os.getenv("SPACES_BUCKET"),
 	Key=f"battles/{time}.json",
-	Body=json.dumps(battle_list),
+	Body=json.dumps(latest_battles_list),
 	ACL="private",
 	ContentType='application/json',
 	Metadata={
