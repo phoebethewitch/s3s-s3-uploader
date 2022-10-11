@@ -37,7 +37,7 @@ time = int(time.time())
 last_id = ""
 with open(".last-id") as f:
 	last_id = f.read()
-
+ 
 latest_battles_list = []
 
 for battle in battle_list:
@@ -47,7 +47,7 @@ for battle in battle_list:
 		latest_battles_list.append(battle)
 
 with open(".last-id", "w") as f:
-	f.write(battle_list[-1]["data"]["vsHistoryDetail"]["id"])
+	f.write(battle_list[0]["data"]["vsHistoryDetail"]["id"])
 
 print("uploading battles...")
 print("latest battles list length:", len(latest_battles_list))
